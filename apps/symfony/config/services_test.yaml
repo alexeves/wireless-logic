@@ -1,0 +1,10 @@
+parameters:
+    project.root_path: '%kernel.project_dir%/../..'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    WirelessLogic\Tests\:
+        resource: '%project.root_path%/tests/*'

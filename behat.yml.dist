@@ -1,0 +1,11 @@
+default:
+
+    suites:
+        products:
+            contexts:
+                - WirelessLogic\Tests\Behat\Products\ProductsContext
+
+    extensions:
+        FriendsOfBehat\SymfonyExtension:
+            kernel:
+                class: WirelessLogic\Symfony\Kernel
