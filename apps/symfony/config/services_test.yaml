@@ -8,3 +8,5 @@ services:
 
     WirelessLogic\Tests\:
         resource: '%project.root_path%/tests/*'
+
+    WirelessLogic\Domain\Products\ProductRepository: '@WirelessLogic\Tests\Common\Products\InMemoryProductRepository'
