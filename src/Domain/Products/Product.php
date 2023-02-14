@@ -74,4 +74,15 @@ class Product
     {
         return $this->subscriptionType === SubscriptionType::MONTHLY;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'description' => $this->description,
+            'annualPrice' => $this->annualPrice,
+            'discount' => $this->discount,
+            'subscriptionType' => $this->subscriptionType,
+        ];
+    }
 }
