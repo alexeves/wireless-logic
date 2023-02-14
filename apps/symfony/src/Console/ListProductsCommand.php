@@ -23,11 +23,11 @@ class ListProductsCommand extends Command
     {
         $products = $this->application->listProducts();
 
-        $productArrays = \array_map(function (Product $product) {
+        $productsArray = \array_map(function (Product $product) {
             return $product->toArray();
         }, $products->toArray());
 
-        $output->writeln(\json_encode($productArrays));
+        $output->writeln(\json_encode($productsArray, JSON_UNESCAPED_SLASHES));
 
         return Command::SUCCESS;
     }

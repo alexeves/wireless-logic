@@ -1,9 +1,16 @@
 default:
 
     suites:
-        products:
+        use-cases:
             contexts:
-                - WirelessLogic\Tests\Behat\Products\ProductsContext
+                - WirelessLogic\Tests\Behat\Products\ProductsUseCaseContext
+            paths:
+                - features/use-cases/
+        end-to-end:
+            contexts:
+              - WirelessLogic\Tests\Behat\Products\ProductsEndToEndContext
+            paths:
+              - features/end-to-end/
 
     extensions:
         FriendsOfBehat\SymfonyExtension:

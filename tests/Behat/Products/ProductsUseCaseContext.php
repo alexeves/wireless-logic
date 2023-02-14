@@ -5,35 +5,28 @@ declare(strict_types=1);
 namespace WirelessLogic\Tests\Behat\Products;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Common\Collections\Collection;
 use WirelessLogic\Application\Application;
-use WirelessLogic\Application\Products\ProductsQuery;
+use WirelessLogic\Domain\Products\HtmlProductParser;
 use WirelessLogic\Domain\Products\Product;
+use WirelessLogic\Domain\Products\ProductCollectionFactory;
 use WirelessLogic\Domain\Products\SubscriptionType;
+use WirelessLogic\Tests\Common\Products\InMemoryProductRepository;
 
-/**
- * This context class contains the definitions of the steps used by the demo
- * feature file. Learn how to get started with Behat and BDD on Behat's website.
- *
- * @see http://behat.org/en/latest/quick_start.html
- */
-final class ProductsContext implements Context
+final class ProductsUseCaseContext implements Context
 {
     /**
      * @var Collection<Product>
      */
     private Collection $products;
 
-    public function __construct(private readonly Application $application)
-    {}
-
     /**
      * @When I make a request for products
      */
     public function iMakeARequestForProducts()
     {
-        $this->products = $this->application->listProducts(new ProductsQuery());
+        $application = new Application(new InMemoryProductRepository(new HtmlProductParser(), new ProductCollectionFactory()));
+        $this->products = $application->listProducts();
     }
 
     /**

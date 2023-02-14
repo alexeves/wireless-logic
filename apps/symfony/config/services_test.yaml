@@ -9,5 +9,3 @@ services:
     WirelessLogic\Tests\:
         resource: '%project.root_path%/tests/*'
         exclude: '%project.root_path%/tests/bootstrap.php'
-
-    WirelessLogic\Domain\Products\ProductRepository: '@WirelessLogic\Tests\Common\Products\InMemoryProductRepository'
