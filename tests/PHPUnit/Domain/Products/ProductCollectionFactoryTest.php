@@ -21,19 +21,19 @@ class ProductCollectionFactoryTest extends TestCase
                     [
                         'title' => 'Basic: 500MB Data - 12 Months',
                         'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
-                        'price' => '£5.99',
+                        'price' => 599,
                     ],
                     [
                         'title' => 'Standard: 1GB Data - 12 Months',
                         'description' => 'Up to 1GB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
-                        'price' => '£9.99',
+                        'price' => 999,
                     ],
                 ],
-                'annual' => [
+                'annually' => [
                     [
                         'title' => 'Basic: 6GB Data - 1 Year',
                         'description' => 'Up to 6GB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
-                        'price' => '£66.00',
+                        'price' => 6600,
                     ],
                 ],
             ],

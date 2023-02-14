@@ -16,25 +16,22 @@ class ProductCollectionFactory
     {
         $products = new ArrayCollection();
         foreach ($productsArray['monthly'] as $productArray) {
-            $price = $this->extractPrice($productArray['price']);
-
             $product = Product::monthlySubscription(
                 $productArray['title'],
                 $productArray['description'],
-                $price,
+                $productArray['price'],
             );
 
             $products->add($product);
         }
 
-        foreach ($productsArray['annual'] as $productArray) {
-            $price = $this->extractPrice($productArray['price']);
-            $discount = $this->calculateDiscount($products, $productArray['title'], $price);
+        foreach ($productsArray['annually'] as $productArray) {
+            $discount = $this->calculateDiscount($products, $productArray['title'], $productArray['price']);
 
             $product = Product::annualSubscription(
                 $productArray['title'],
                 $productArray['description'],
-                $price,
+                $productArray['price'],
                 $discount,
             );
 
@@ -42,14 +39,6 @@ class ProductCollectionFactory
         }
 
         return $products;
-    }
-
-    private function extractPrice(string $priceString): int
-    {
-        $price = (float)\str_replace('£', '', $priceString);
-        $price = $price * 100;
-
-        return (int)$price;
     }
 
     private function calculateDiscount(ArrayCollection $products, string $productTitle, int $price)
