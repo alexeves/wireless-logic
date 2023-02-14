@@ -69,4 +69,9 @@ class Product
     {
         return $this->subscriptionType;
     }
+
+    public function isMonthlySubscription(): bool
+    {
+        return $this->subscriptionType === SubscriptionType::MONTHLY;
+    }
 }

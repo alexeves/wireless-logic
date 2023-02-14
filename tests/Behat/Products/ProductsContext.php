@@ -45,48 +45,48 @@ final class ProductsContext implements Context
 
         $productOne = $this->products->current();
         \assert($productOne instanceof Product);
-        \assert($productOne->title() === 'Optimum 2GB');
-        \assert($productOne->description() === 'Optimum 2GB per month');
+        \assert($productOne->title() === 'Optimum: 2GB Data - 12 Months');
+        \assert($productOne->description() === 'Up to 2GB');
         \assert($productOne->annualPrice() === 19188);
         \assert($productOne->discount() === 0);
         \assert($productOne->subscriptionType() === SubscriptionType::MONTHLY);
 
         $productTwo = $this->products->next();
         \assert($productTwo instanceof Product);
-        \assert($productTwo->title() === 'Optimum 24GB');
-        \assert($productTwo->description() === 'Optimum 24GB per year');
+        \assert($productTwo->title() === 'Optimum: 24GB Data - 1 Year');
+        \assert($productTwo->description() === 'Up to 24GB');
         \assert($productTwo->annualPrice() === 17400);
         \assert($productTwo->discount() === 1788);
         \assert($productTwo->subscriptionType() === SubscriptionType::ANNUAL);
 
         $productThree = $this->products->next();
         \assert($productThree instanceof Product);
-        \assert($productThree->title() === 'Standard 1GB');
-        \assert($productThree->description() === 'Standard 1GB per month');
+        \assert($productThree->title() === 'Standard: 1GB Data - 12 Months');
+        \assert($productThree->description() === 'Up to 1GB');
         \assert($productThree->annualPrice() === 11988);
         \assert($productThree->discount() === 0);
         \assert($productThree->subscriptionType() === SubscriptionType::MONTHLY);
 
         $productFour = $this->products->next();
         \assert($productFour instanceof Product);
-        \assert($productFour->title() === 'Standard 12GB');
-        \assert($productFour->description() === 'Standard 12GB per year');
+        \assert($productFour->title() === 'Standard: 12GB Data - 1 Year');
+        \assert($productFour->description() === 'Up to 12GB');
         \assert($productFour->annualPrice() === 10800);
         \assert($productFour->discount() === 1188);
         \assert($productFour->subscriptionType() === SubscriptionType::ANNUAL);
 
         $productFive = $this->products->next();
         \assert($productFive instanceof Product);
-        \assert($productFive->title() === 'Basic 500MB');
-        \assert($productFive->description() === 'Basic 500MB per month');
+        \assert($productFive->title() === 'Basic: 500MB Data - 12 Months');
+        \assert($productFive->description() === 'Up to 500MB');
         \assert($productFive->annualPrice() === 7188);
         \assert($productFive->discount() === 0);
         \assert($productFive->subscriptionType() === SubscriptionType::MONTHLY);
 
         $productSix = $this->products->next();
         \assert($productSix instanceof Product);
-        \assert($productSix->title() === 'Basic 6GB');
-        \assert($productSix->description() === 'Basic 6GB per year');
+        \assert($productSix->title() === 'Basic: 6GB Data - 1 Year');
+        \assert($productSix->description() === 'Up to 6GB');
         \assert($productSix->annualPrice() === 6600);
         \assert($productSix->discount() === 588);
         \assert($productSix->subscriptionType() === SubscriptionType::ANNUAL);
