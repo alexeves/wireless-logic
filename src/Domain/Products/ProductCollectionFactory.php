@@ -10,38 +10,102 @@ use Doctrine\Common\Collections\Collection;
 class ProductCollectionFactory
 {
     /**
-     * @return Collection<Product>
+     * @param array<string, array<int, array<string, int|string>>> $productsData
+     * @return Collection<int, Product>
      */
-    public function createFromArray(array $productsArray): Collection
+    public function createFromArray(array $productsData): Collection
     {
-        $products = new ArrayCollection();
-        foreach ($productsArray['monthly'] as $productArray) {
-            $product = Product::monthlySubscription(
-                $productArray['title'],
-                $productArray['description'],
-                $productArray['price'],
-            );
-
-            $products->add($product);
+        if (empty($productsData)) {
+            return new ArrayCollection();
         }
 
-        foreach ($productsArray['annually'] as $productArray) {
-            $discount = $this->calculateDiscount($products, $productArray['title'], $productArray['price']);
-
-            $product = Product::annualSubscription(
-                $productArray['title'],
-                $productArray['description'],
-                $productArray['price'],
-                $discount,
-            );
-
-            $products->add($product);
+        if (!$this->isProductDataInExpectedFormat($productsData)) {
+            throw new \InvalidArgumentException('Could not create Product Collection. The given product data is not in expected format');
         }
 
-        return $products;
+        $sortedProductsData = $this->sortProductsArrayIntoMonthlySubscriptionsFirst($productsData);
+
+        return $this->createProductCollection($sortedProductsData);
     }
 
-    private function calculateDiscount(ArrayCollection $products, string $productTitle, int $price)
+    /**
+     * @param array<string, array<int, array<string, int|string>>> $products
+     */
+    private function isProductDataInExpectedFormat(array $products): bool
+    {
+        foreach ($products as $product) {
+            if (!\is_array($product)) {
+                return false;
+            }
+
+            if (!isset($product['title']) || !\is_string($product['title'])) {
+                return false;
+            }
+
+            if (!isset($product['description']) || !\is_string($product['description'])) {
+                return false;
+            }
+
+            if (!isset($product['price']) || !\is_integer($product['price'])) {
+                return false;
+            }
+
+            if (!isset($product['subscriptionType']) || !$product['subscriptionType'] instanceof SubscriptionType) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function sortProductsArrayIntoMonthlySubscriptionsFirst(array $productsData): array
+    {
+        \usort($productsData, function (array $a, array $b): int {
+            $currentSubscriptionType = $a['subscriptionType'];
+            $nextSubscriptionType = $b['subscriptionType'];
+
+            if ($currentSubscriptionType === $nextSubscriptionType) {
+                return 0;
+            }
+
+            return $currentSubscriptionType === SubscriptionType::MONTHLY ? -1 : 1;
+        });
+
+        return $productsData;
+    }
+
+    private function createProductCollection(array $productsData): Collection
+    {
+        $productCollection = new ArrayCollection();
+
+        foreach ($productsData as $productData) {
+            if ($productData['subscriptionType'] === SubscriptionType::MONTHLY) {
+                $productCollection->add(Product::monthlySubscription(
+                    $productData['title'],
+                    $productData['description'],
+                    $productData['price'],
+                ));
+
+                continue;
+            }
+
+            $discount = $this->calculateDiscount($productCollection, $productData['title'], $productData['price']);
+
+            $productCollection->add(Product::annualSubscription(
+                $productData['title'],
+                $productData['description'],
+                $productData['price'],
+                $discount,
+            ));
+        }
+
+        return $productCollection;
+    }
+
+    /**
+     * @param Collection<int, Product> $products
+     */
+    private function calculateDiscount(Collection $products, string $productTitle, int $price): int
     {
         $correspondingMonthlyProduct = $products->filter(function (Product $product) use ($productTitle) {
             if (!$product->isMonthlySubscription()) {
