@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use WirelessLogic\Domain\Products\HtmlProductParser;
 use WirelessLogic\Domain\Products\Product;
 use WirelessLogic\Domain\Products\ProductCollectionFactory;
-use WirelessLogic\Domain\Products\ProductListRetrievalException;
+use WirelessLogic\Domain\Products\CouldNotListHtmlProducts;
 use WirelessLogic\Domain\Products\ProductRepository;
 
 class HtmlProductRepository implements ProductRepository
@@ -28,14 +28,11 @@ class HtmlProductRepository implements ProductRepository
     {
         try {
             $html = \file_get_contents($this->productSource);
-
-            if ($html === false) {
-                throw ProductListRetrievalException::becauseProductDataCouldNotBeFetched();
-            }
         } catch (\Throwable $throwable) {
-            throw ProductListRetrievalException::becauseProductDataCouldNotBeFetched($throwable->getMessage());
+            throw CouldNotListHtmlProducts::becauseProductDataCouldNotBeFetchedFrom($this->productSource, $throwable->getMessage());
         }
 
+        \assert(\is_string($html));
         $productData = $this->htmlProductParser->parse($html);
         $products = $this->productCollectionFactory->createFromArray($productData)->toArray();
 

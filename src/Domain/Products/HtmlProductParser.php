@@ -7,41 +7,36 @@ namespace WirelessLogic\Domain\Products;
 class HtmlProductParser
 {
     /**
-     * @return array<int, array<string, int|string|SubscriptionType>>
+     * @return array<int, array<string, int|string|SubscriptionType|null>>
      */
     public function parse(string $html): array
     {
         $dom = new \DOMDocument();
         @$dom->loadHTML($html);
         $xpath = new \DOMXPath($dom);
-        $elements = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), 'package ')]");
-        \assert($elements instanceof \DOMNodeList);
 
-        $elementsIterator = $elements->getIterator();
+        try {
+            $nodeList = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), 'package ')]");
+        } catch (\Throwable $throwable) {
+            throw CouldNotListHtmlProducts::becauseProductDataCouldNotBeParsed($throwable->getMessage());
+        }
+
+        \assert($nodeList instanceof \DOMNodeList);
+        $nodeListIterator = $nodeList->getIterator();
         $products = [];
 
         /* @var \DOMElement $element */
-        foreach ($elementsIterator as $element) {
+        foreach ($nodeListIterator as $element) {
             $innerDom = new \DOMDocument();
             $cloned = $element->cloneNode(true);
             $innerDom->appendChild($innerDom->importNode($cloned, true));
             $xpath = new \DOMXPath($innerDom);
 
             $product = [];
-            $titleNodeList = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), 'header ')]//h3");
-            \assert($titleNodeList instanceof \DOMNodeList);
-            $product['title'] = $titleNodeList->item(0)?->nodeValue;
-            \assert(\is_string($product['title']));
 
-            $descriptionNodeList = $xpath->query("//*[@class='package-description']");
-            \assert($descriptionNodeList instanceof \DOMNodeList);
-            $product['description'] = $descriptionNodeList->item(0)?->nodeValue;
-            \assert(\is_string($product['description']));
-
-            $price = $xpath->query("//*[@class='price-big']");
-            \assert($price instanceof \DOMNodeList);
-            $rawPrice = $price->item(0)?->nodeValue;
-            \assert(is_string($rawPrice));
+            $product['title'] = $this->extractNodeValueFromXpath('//*[contains(concat(" ", normalize-space(@class), " "), "header ")]//h3', $xpath);
+            $product['description'] = $this->extractNodeValueFromXpath('//*[@class="package-description"]', $xpath);
+            $rawPrice = $this->extractNodeValueFromXpath('//*[@class="price-big"]', $xpath);
             $product['price'] = (int) \preg_replace('/\D/', '', $rawPrice);
 
             $product['subscriptionType'] = \str_contains(\strtolower($product['title']), 'year') ?
@@ -53,5 +48,22 @@ class HtmlProductParser
         }
 
         return $products;
+    }
+
+    private function extractNodeValueFromXpath(string $xpathQuery, \DOMXPath $xpath): string
+    {
+        try {
+            $nodeList = $xpath->query($xpathQuery);
+        } catch (\Throwable $throwable) {
+            throw CouldNotListHtmlProducts::becauseProductDataCouldNotBeParsed($throwable->getMessage());
+        }
+
+        if (!$nodeList instanceof \DOMNodeList || $nodeList->item(0) === null) {
+            throw CouldNotListHtmlProducts::becauseNodeNotFoundWithXpath($xpathQuery);
+        }
+
+        \assert(\is_string($nodeList->item(0)->nodeValue));
+
+        return $nodeList->item(0)->nodeValue;
     }
 }

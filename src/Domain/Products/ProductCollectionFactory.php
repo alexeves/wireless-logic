@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 class ProductCollectionFactory
 {
     /**
-     * @param array<int, array<string, int|string|SubscriptionType>> $productsData
+     * @param array<int, array<string, int|string|SubscriptionType|null>> $productsData
      * @return Collection<int, Product>
      */
     public function createFromArray(array $productsData): Collection
@@ -29,7 +29,7 @@ class ProductCollectionFactory
     }
 
     /**
-     * @param array<int, array<string, int|string|SubscriptionType>> $products
+     * @param array<int, array<string, int|string|SubscriptionType|null>> $products
      */
     private function isProductDataInExpectedFormat(array $products): bool
     {
@@ -59,8 +59,8 @@ class ProductCollectionFactory
     }
 
     /**
-     * @param array<int, array<string, int|string|SubscriptionType>> $productsData
-     * @return array<int, array<string, int|string|SubscriptionType>>
+     * @param array<int, array<string, int|string|SubscriptionType|null>> $productsData
+     * @return array<int, array<string, int|string|SubscriptionType|null>>
      */
     private function sortProductsArrayIntoMonthlySubscriptionsFirst(array $productsData): array
     {
@@ -79,7 +79,7 @@ class ProductCollectionFactory
     }
 
     /**
-     * @param array<int, array<string, int|string|SubscriptionType>> $productsData
+     * @param array<int, array<string, int|string|SubscriptionType|null>> $productsData
      * @return Collection<int, Product>
      */
     private function createProductCollection(array $productsData): Collection
