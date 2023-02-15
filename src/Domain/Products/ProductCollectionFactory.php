@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 class ProductCollectionFactory
 {
     /**
-     * @param array<string, array<int, array<string, int|string>>> $productsData
+     * @param array<int, array<string, int|string|SubscriptionType>> $productsData
      * @return Collection<int, Product>
      */
     public function createFromArray(array $productsData): Collection
@@ -29,7 +29,7 @@ class ProductCollectionFactory
     }
 
     /**
-     * @param array<string, array<int, array<string, int|string>>> $products
+     * @param array<int, array<string, int|string|SubscriptionType>> $products
      */
     private function isProductDataInExpectedFormat(array $products): bool
     {
@@ -58,6 +58,10 @@ class ProductCollectionFactory
         return true;
     }
 
+    /**
+     * @param array<int, array<string, int|string|SubscriptionType>> $productsData
+     * @return array<int, array<string, int|string|SubscriptionType>>
+     */
     private function sortProductsArrayIntoMonthlySubscriptionsFirst(array $productsData): array
     {
         \usort($productsData, function (array $a, array $b): int {
@@ -74,11 +78,20 @@ class ProductCollectionFactory
         return $productsData;
     }
 
+    /**
+     * @param array<int, array<string, int|string|SubscriptionType>> $productsData
+     * @return Collection<int, Product>
+     */
     private function createProductCollection(array $productsData): Collection
     {
         $productCollection = new ArrayCollection();
 
         foreach ($productsData as $productData) {
+            \assert(\is_string($productData['title']));
+            \assert(\is_string($productData['description']));
+            \assert(\is_integer($productData['price']));
+            \assert($productData['subscriptionType'] instanceof SubscriptionType);
+
             if ($productData['subscriptionType'] === SubscriptionType::MONTHLY) {
                 $productCollection->add(Product::monthlySubscription(
                     $productData['title'],

@@ -16,14 +16,14 @@ use WirelessLogic\Tests\Common\Products\InMemoryProductRepository;
 final class ProductsUseCaseContext implements Context
 {
     /**
-     * @var Collection<Product>
+     * @var Collection<int, Product>
      */
     private Collection $products;
 
     /**
      * @When I make a request for products
      */
-    public function iMakeARequestForProducts()
+    public function iMakeARequestForProducts(): void
     {
         $application = new Application(new InMemoryProductRepository(new HtmlProductParser(), new ProductCollectionFactory()));
         $this->products = $application->listProducts();
@@ -32,7 +32,7 @@ final class ProductsUseCaseContext implements Context
     /**
      * @Then I should receive a list of products ordered by most expensive monthly cost first
      */
-    public function iShouldReceiveAListOfProductsOrderedByMostExpensiveMonthlyCostFirst()
+    public function iShouldReceiveAListOfProductsOrderedByMostExpensiveMonthlyCostFirst(): void
     {
         \assert($this->products->count() === 6);
 

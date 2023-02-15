@@ -33,9 +33,12 @@ class ProductRepositoryContractTest extends TestCase
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function productRepositories(): iterable
     {
         yield [new InMemoryProductRepository(new HtmlProductParser(), new ProductCollectionFactory())];
-        yield [new HtmlProductRepository(new HtmlProductParser(), new ProductCollectionFactory())];
+        yield [new HtmlProductRepository(new HtmlProductParser(), new ProductCollectionFactory(), 'https://wltest.dns-systems.net')];
     }
 }

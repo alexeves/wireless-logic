@@ -6,15 +6,12 @@ namespace WirelessLogic\Domain\Products;
 
 class Product
 {
-    private readonly SubscriptionType $subscriptionType;
-
-    private readonly int $annualPrice;
-
-    private readonly int $discount;
-
     private function __construct(
         private readonly string $title,
         private readonly string $description,
+        private readonly int $annualPrice,
+        private readonly int $discount,
+        private readonly SubscriptionType $subscriptionType
     ) {
     }
 
@@ -23,12 +20,7 @@ class Product
         string $description,
         int $monthlyPrice,
     ) : self {
-        $instance = new self($title, $description);
-        $instance->subscriptionType = SubscriptionType::MONTHLY;
-        $instance->annualPrice = $monthlyPrice * 12;
-        $instance->discount = 0;
-
-        return $instance;
+        return new self($title, $description, $monthlyPrice * 12, 0, SubscriptionType::MONTHLY);
     }
 
     public static function annualSubscription(
@@ -37,12 +29,7 @@ class Product
         int $annualPrice,
         int $discount,
     ) : self {
-        $instance = new self($title, $description);
-        $instance->subscriptionType = SubscriptionType::ANNUAL;
-        $instance->annualPrice = $annualPrice;
-        $instance->discount = $discount;
-
-        return $instance;
+        return new self($title, $description, $annualPrice, $discount, SubscriptionType::ANNUAL);
     }
 
     public function title(): string
@@ -75,6 +62,9 @@ class Product
         return $this->subscriptionType === SubscriptionType::MONTHLY;
     }
 
+    /**
+     * @return array<string, int|string|SubscriptionType>
+     */
     public function toArray(): array
     {
         return [

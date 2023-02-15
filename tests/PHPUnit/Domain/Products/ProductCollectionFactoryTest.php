@@ -6,6 +6,7 @@ namespace WirelessLogic\Tests\PHPUnit\Domain\Products;
 
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
+use WirelessLogic\Domain\Products\Product;
 use WirelessLogic\Domain\Products\ProductCollectionFactory;
 use WirelessLogic\Domain\Products\SubscriptionType;
 
@@ -60,6 +61,7 @@ class ProductCollectionFactoryTest extends TestCase
         $this->assertCount(3, $products);
 
         $monthlyProduct = $products->first();
+        \assert($monthlyProduct instanceof Product);
         $this->assertEquals('Basic: 500MB Data - 12 Months', $monthlyProduct->title());
         $this->assertEquals('Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)', $monthlyProduct->description());
         $this->assertEquals(7188, $monthlyProduct->annualPrice());
@@ -67,6 +69,7 @@ class ProductCollectionFactoryTest extends TestCase
         $this->assertEquals(SubscriptionType::MONTHLY, $monthlyProduct->subscriptionType());
 
         $annualProduct = $products->last();
+        \assert($annualProduct instanceof Product);
         $this->assertEquals('Basic: 6GB Data - 1 Year', $annualProduct->title());
         $this->assertEquals('Up to 6GB of data per year including 20 SMS (5p / MB data and 4p / SMS thereafter)', $annualProduct->description());
         $this->assertEquals(6600, $annualProduct->annualPrice());
@@ -75,6 +78,7 @@ class ProductCollectionFactoryTest extends TestCase
     }
 
     /**
+     * @param array<int, array<string, int|string|SubscriptionType>> $productData
      * @test
      * @dataProvider provideUnexpectedProductData
      */
@@ -85,6 +89,9 @@ class ProductCollectionFactoryTest extends TestCase
         $this->sut->createFromArray($productData);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function provideUnexpectedProductData(): iterable
     {
         yield [['not-an-array']];

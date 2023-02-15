@@ -9,3 +9,8 @@ services:
     WirelessLogic\Tests\:
         resource: '%project.root_path%/tests/*'
         exclude: '%project.root_path%/tests/bootstrap.php'
+
+    WirelessLogic\Tests\Behat\Products\ProductsEndToEndContext:
+      class: WirelessLogic\Tests\Behat\Products\ProductsEndToEndContext
+      arguments:
+        $productSource: '%product_source%'

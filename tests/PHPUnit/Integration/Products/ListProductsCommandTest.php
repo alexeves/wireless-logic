@@ -34,7 +34,7 @@ class ListProductsCommandTest extends TestCase
 
         $symfonyApplication = new SymfonyApplication();
         $symfonyApplication->add($command);
-        $sut = $symfonyApplication->find(ListProductsCommand::getDefaultName());
+        $sut = $symfonyApplication->find('wireless-logic:list-products');
         $commandTester = new CommandTester($sut);
         $result = $commandTester->execute([]);
 

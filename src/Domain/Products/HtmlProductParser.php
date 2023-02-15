@@ -6,32 +6,50 @@ namespace WirelessLogic\Domain\Products;
 
 class HtmlProductParser
 {
+    /**
+     * @return array<int, array<string, int|string|SubscriptionType>>
+     */
     public function parse(string $html): array
     {
         $dom = new \DOMDocument();
         @$dom->loadHTML($html);
         $xpath = new \DOMXPath($dom);
-        $elements = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), 'package ')]")->getIterator();
+        $elements = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), 'package ')]");
+        \assert($elements instanceof \DOMNodeList);
+
+        $elementsIterator = $elements->getIterator();
         $products = [];
 
         /* @var \DOMElement $element */
-        foreach ($elements as $element) {
+        foreach ($elementsIterator as $element) {
             $innerDom = new \DOMDocument();
             $cloned = $element->cloneNode(true);
             $innerDom->appendChild($innerDom->importNode($cloned, true));
             $xpath = new \DOMXPath($innerDom);
 
             $product = [];
-            $product['title'] = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), 'header ')]//h3")->item(0)->nodeValue;
-            $product['description'] = $xpath->query("//*[@class='package-description']")->item(0)->nodeValue;
-            $rawPrice = $xpath->query("//*[@class='price-big']")->item(0)->nodeValue;
+            $titleNodeList = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), 'header ')]//h3");
+            \assert($titleNodeList instanceof \DOMNodeList);
+            $product['title'] = $titleNodeList->item(0)?->nodeValue;
+            \assert(\is_string($product['title']));
+
+            $descriptionNodeList = $xpath->query("//*[@class='package-description']");
+            \assert($descriptionNodeList instanceof \DOMNodeList);
+            $product['description'] = $descriptionNodeList->item(0)?->nodeValue;
+            \assert(\is_string($product['description']));
+
+            $price = $xpath->query("//*[@class='price-big']");
+            \assert($price instanceof \DOMNodeList);
+            $rawPrice = $price->item(0)?->nodeValue;
+            \assert(is_string($rawPrice));
             $product['price'] = (int) \preg_replace('/\D/', '', $rawPrice);
 
-            if (\str_contains(\strtolower($product['title']), 'year')) {
-                $products['annually'][] = $product;
-            } else {
-                $products['monthly'][] = $product;
-            }
+            $product['subscriptionType'] = \str_contains(\strtolower($product['title']), 'year') ?
+                SubscriptionType::ANNUAL :
+                SubscriptionType::MONTHLY
+            ;
+
+            $products[] = $product;
         }
 
         return $products;

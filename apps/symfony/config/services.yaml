@@ -6,6 +6,7 @@
 parameters:
 
   project.root_path: '%kernel.project_dir%/../..'
+  product_source: 'https://wltest.dns-systems.net'
 
 services:
   # default configuration for services in *this* file
@@ -25,3 +26,8 @@ services:
   # Business logic
   WirelessLogic\:
     resource: '%project.root_path%/src/'
+
+  WirelessLogic\Infrastructure\Products\HtmlProductRepository:
+    class: WirelessLogic\Infrastructure\Products\HtmlProductRepository
+    arguments:
+      $productSource: '%product_source%'

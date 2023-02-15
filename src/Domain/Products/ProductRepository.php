@@ -8,5 +8,8 @@ use Doctrine\Common\Collections\Collection;
 
 interface ProductRepository
 {
+    /**
+     * @return Collection<int, Product>
+     */
     public function findAllProductsOrderedByAnnualPriceDescending(): Collection;
 }

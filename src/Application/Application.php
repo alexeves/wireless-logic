@@ -15,7 +15,7 @@ class Application
     }
 
     /**
-     * @return Collection<Product>
+     * @return Collection<int, Product>
      */
     public function listProducts(): Collection
     {
