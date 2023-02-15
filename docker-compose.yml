@@ -3,9 +3,8 @@ version: "3.9"
 services:
   php:
     build: .
-    container_name: ${COMPOSER_PROJECT_NAME}-php
+    container_name: wireless-logic-php
     environment:
       PHP_IDE_CONFIG: serverName=docker
     volumes:
       - .:/app
-      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
