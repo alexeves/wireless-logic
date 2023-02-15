@@ -7,6 +7,7 @@ namespace WirelessLogic\Tests\PHPUnit\Domain\Products;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use WirelessLogic\Domain\Products\HtmlProductParser;
+use WirelessLogic\Domain\Products\SubscriptionType;
 
 class HtmlProductParserTest extends TestCase
 {
@@ -21,39 +22,41 @@ class HtmlProductParserTest extends TestCase
         $result = $sut->parse($html);
 
         $expected = [
-            'monthly' => [
-                [
-                    'title' => 'Basic: 500MB Data - 12 Months',
-                    'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
-                    'price' => 599,
-                ],
-                [
-                    'title' => 'Standard: 1GB Data - 12 Months',
-                    'description' => 'Up to 1GB data per month including 35 SMS (5p / MB data and 4p / SMS thereafter)',
-                    'price' => 999,
-                ],
-                [
-                    'title' => 'Optimum: 2GB Data - 12 Months',
-                    'description' => '2GB data per month including 40 SMS (5p / minute and 4p / SMS thereafter)',
-                    'price' => 1599,
-                ],
+            [
+                'title' => 'Basic: 500MB Data - 12 Months',
+                'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
+                'price' => 599,
+                'subscriptionType' => SubscriptionType::MONTHLY,
             ],
-            'annually' =>  [
-                [
-                    'title' => 'Basic: 6GB Data - 1 Year',
-                    'description' => 'Up to 6GB of data per year including 240 SMS (5p / MB data and 4p / SMS thereafter)',
-                    'price' => 6600,
-                ],
-                [
-                    'title' => 'Standard: 12GB Data - 1 Year',
-                    'description' => 'Up to 12GB of data per year including 420 SMS (5p / MB data and 4p / SMS thereafter)',
-                    'price' => 10800,
-                ],
-                [
-                    'title' => 'Optimum: 24GB Data - 1 Year',
-                    'description' => 'Up to 24GB of data per year including 480 SMS (5p / MB data and 4p / SMS thereafter)',
-                    'price' => 17400,
-                ],
+            [
+                'title' => 'Standard: 1GB Data - 12 Months',
+                'description' => 'Up to 1GB data per month including 35 SMS (5p / MB data and 4p / SMS thereafter)',
+                'price' => 999,
+                'subscriptionType' => SubscriptionType::MONTHLY,
+            ],
+            [
+                'title' => 'Optimum: 2GB Data - 12 Months',
+                'description' => '2GB data per month including 40 SMS (5p / minute and 4p / SMS thereafter)',
+                'price' => 1599,
+                'subscriptionType' => SubscriptionType::MONTHLY,
+            ],
+            [
+                'title' => 'Basic: 6GB Data - 1 Year',
+                'description' => 'Up to 6GB of data per year including 240 SMS (5p / MB data and 4p / SMS thereafter)',
+                'price' => 6600,
+                'subscriptionType' => SubscriptionType::ANNUAL,
+            ],
+            [
+                'title' => 'Standard: 12GB Data - 1 Year',
+                'description' => 'Up to 12GB of data per year including 420 SMS (5p / MB data and 4p / SMS thereafter)',
+                'price' => 10800,
+                'subscriptionType' => SubscriptionType::ANNUAL,
+            ],
+            [
+                'title' => 'Optimum: 24GB Data - 1 Year',
+                'description' => 'Up to 24GB of data per year including 480 SMS (5p / MB data and 4p / SMS thereafter)',
+                'price' => 17400,
+                'subscriptionType' => SubscriptionType::ANNUAL,
             ],
         ];
 

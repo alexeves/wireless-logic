@@ -19,6 +19,9 @@ class HtmlProductRepository implements ProductRepository
     ) {
     }
 
+    /**
+     * @inheritDoc
+     */
     public function findAllProductsOrderedByAnnualPriceDescending(): Collection
     {
         $html = \file_get_contents('https://wltest.dns-systems.net');
