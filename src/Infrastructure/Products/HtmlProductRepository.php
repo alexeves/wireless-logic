@@ -6,10 +6,10 @@ namespace WirelessLogic\Infrastructure\Products;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirelessLogic\Domain\Products\CouldNotListHtmlProducts;
 use WirelessLogic\Domain\Products\HtmlProductParser;
 use WirelessLogic\Domain\Products\Product;
 use WirelessLogic\Domain\Products\ProductCollectionFactory;
-use WirelessLogic\Domain\Products\CouldNotListHtmlProducts;
 use WirelessLogic\Domain\Products\ProductRepository;
 
 class HtmlProductRepository implements ProductRepository

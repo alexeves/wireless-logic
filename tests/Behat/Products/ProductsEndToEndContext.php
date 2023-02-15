@@ -60,7 +60,7 @@ final class ProductsEndToEndContext implements Context
     /**
      * @When I make a bad request for products
      */
-    public function iMakeABadRequestForProducts()
+    public function iMakeABadRequestForProducts(): void
     {
         $application = new Application(
             new HtmlProductRepository(
@@ -84,10 +84,9 @@ final class ProductsEndToEndContext implements Context
     /**
      * @Then I should receive an appropriate error message
      */
-    public function iShouldReceiveAnAppropriateErrorMessage()
+    public function iShouldReceiveAnAppropriateErrorMessage(): void
     {
         \assert($this->result === Command::FAILURE);
         \assert(str_contains($this->output, 'Failed to fetch the product data from https://bad-source because: Warning:'));
     }
-
 }
