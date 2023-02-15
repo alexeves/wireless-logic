@@ -19,7 +19,7 @@ class Product
         string $title,
         string $description,
         int $monthlyPrice,
-    ) : self {
+    ): self {
         return new self($title, $description, $monthlyPrice * 12, 0, SubscriptionType::MONTHLY);
     }
 
@@ -28,7 +28,7 @@ class Product
         string $description,
         int $annualPrice,
         int $discount,
-    ) : self {
+    ): self {
         return new self($title, $description, $annualPrice, $discount, SubscriptionType::ANNUAL);
     }
 

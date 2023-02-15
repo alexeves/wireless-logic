@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WirelessLogic\Tests\PHPUnit\Domain\Products;
 
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use WirelessLogic\Domain\Products\HtmlProductParser;
 use WirelessLogic\Domain\Products\SubscriptionType;

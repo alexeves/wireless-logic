@@ -22,7 +22,7 @@ class HtmlProductRepository implements ProductRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function findAllProductsOrderedByAnnualPriceDescending(): Collection
     {

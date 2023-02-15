@@ -20,7 +20,7 @@ class InMemoryProductRepository implements ProductRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function findAllProductsOrderedByAnnualPriceDescending(): Collection
     {

@@ -102,8 +102,8 @@ class ProductCollectionFactoryTest extends TestCase
                 'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
                 'price' => 599,
                 'subscriptionType' => SubscriptionType::MONTHLY,
-                ]
-            ]
+                ],
+            ],
         ];
 
         yield [
@@ -113,8 +113,8 @@ class ProductCollectionFactoryTest extends TestCase
                     'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
                     'price' => 599,
                     'subscriptionType' => SubscriptionType::MONTHLY,
-                ]
-            ]
+                ],
+            ],
         ];
 
         yield [
@@ -123,8 +123,8 @@ class ProductCollectionFactoryTest extends TestCase
                     'title' => 'Basic: 500MB Data - 12 Months',
                     'price' => 599,
                     'subscriptionType' => SubscriptionType::MONTHLY,
-                ]
-            ]
+                ],
+            ],
         ];
 
         yield [
@@ -134,8 +134,8 @@ class ProductCollectionFactoryTest extends TestCase
                     'description' => 34,
                     'price' => 599,
                     'subscriptionType' => SubscriptionType::MONTHLY,
-                ]
-            ]
+                ],
+            ],
         ];
 
         yield [
@@ -144,8 +144,8 @@ class ProductCollectionFactoryTest extends TestCase
                     'title' => 'Basic: 500MB Data - 12 Months',
                     'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
                     'subscriptionType' => SubscriptionType::MONTHLY,
-                ]
-            ]
+                ],
+            ],
         ];
 
         yield [
@@ -155,8 +155,8 @@ class ProductCollectionFactoryTest extends TestCase
                     'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
                     'price' => '599',
                     'subscriptionType' => SubscriptionType::MONTHLY,
-                ]
-            ]
+                ],
+            ],
         ];
 
         yield [
@@ -165,8 +165,8 @@ class ProductCollectionFactoryTest extends TestCase
                     'title' => 'Basic: 500MB Data - 12 Months',
                     'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
                     'price' => 599,
-                ]
-            ]
+                ],
+            ],
         ];
 
         yield [
@@ -176,8 +176,8 @@ class ProductCollectionFactoryTest extends TestCase
                     'description' => 'Up to 500MB of data per month including 20 SMS (5p / MB data and 4p / SMS thereafter)',
                     'price' => 599,
                     'subscriptionType' => 'Monthly',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }
