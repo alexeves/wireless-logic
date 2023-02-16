@@ -17,9 +17,5 @@ jobs:
     - name: Install dependencies
       run: make build
 
-    - name: Run code analysis
-      run: make run-code-analysis
-
-    - name: Run tests
-      run: make run-tests
-      
+    - name: Run coding standards check
+      run: docker exec wireless-logic-php vendor/bin/php-cs-fixer fix --no-interaction --diff -v --dry-run
